@@ -1,0 +1,29 @@
+{
+  "name": "github-slug",
+  "version": "0.0.0",
+  "description": "Get the github slug (username/repo) of the current folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Finn Pauls",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finnp/github-slug.git"
+  },
+  "keywords": [
+    "github",
+    "username",
+    "password",
+    "slug"
+  ],
+  "bugs": {
+    "url": "https://github.com/finnp/github-slug/issues"
+  },
+  "homepage": "https://github.com/finnp/github-slug",
+  "dependencies": {
+    "git-remote-origin-url": "^0.1.1",
+    "github-url-from-git": "^1.1.1"
+  }
+}
