@@ -8,6 +8,6 @@ Install with `npm install github-slug`
 var ghslug = require('github-slug');
 ghslug('./', function (err, slug) {
   console.log(slug);
-  // evaluates to 'finnp/node-github-slug' in this directory
+  // evaluates to 'finnp/github-slug' in this directory
 });
 ```
