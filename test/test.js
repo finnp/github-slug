@@ -17,7 +17,7 @@ describe('github-slug', function() {
     process.chdir(oldWD);
   });
 
-  it('returns the correct URL', function(done) {
+  it('returns the correct slug', function(done) {
     childProcess.execSync('git init');
     childProcess.execSync('git remote add origin https://github.com/marco-c/github-slug.git');
 
