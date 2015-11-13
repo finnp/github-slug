@@ -4,7 +4,7 @@
   "description": "Get the github slug (username/repo) of the current folder",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Finn Pauls",
   "license": "MIT",
@@ -25,5 +25,9 @@
   "dependencies": {
     "git-remote-origin-url": "^1.1.2",
     "github-url-from-git": "^1.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3",
+    "temp": "^0.8.3"
   }
 }
