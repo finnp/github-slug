@@ -26,4 +26,11 @@ describe('github-slug', function() {
       done();
     });
   });
+
+  it('fails if outside of a git repository', function(done) {
+    ghslug('./', function(err, slug) {
+      assert(err);
+      done();
+    });
+  });
 });
