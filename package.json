@@ -4,7 +4,7 @@
   "description": "Get the github slug (username/repo) of the current folder",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "node test/test.js"
   },
   "author": "Finn Pauls",
   "license": "MIT",
@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/finnp/github-slug",
   "dependencies": {
-    "git-remote-url": "0.0.2",
-    "github-url-from-git": "^1.4.0"
+    "gitconfiglocal": "^1.0.0",
+    "github-url-from-git": "^1.4.0",
+    "temp": "^0.8.3"
   },
   "devDependencies": {
-    "mocha": "^2.3.3",
     "temp": "^0.8.3",
-    "promisify-node": "^0.2.1"
+    "tape": "^4.2.2"
   }
 }

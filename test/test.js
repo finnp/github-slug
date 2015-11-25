@@ -1,74 +1,71 @@
-'use strict';
+var test = require('tape')
 
-var promisify = require('promisify-node');
+var exec = require('child_process').execSync
+var temp = require('temp')
+temp.track()
 
-var assert = require('assert');
-var childProcess = require('child_process');
-var temp = require('temp').track();
+var ghslug = require('../index.js')
 
-var ghslug = promisify(require('../index.js'));
+test('github-slug', function (t) {
+  t.test('returns the correct slug', function (t) {
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add origin https://github.com/marco-c/github-slug.git')
 
-describe('github-slug', function() {
-  var oldWD = process.cwd();
+    ghslug('./', function (err, slug) {
+      t.notOk(err)
+      t.equal(slug, 'marco-c/github-slug')
+      t.end()
+    })
+  })
 
-  beforeEach(function() {
-    process.chdir(temp.mkdirSync('github-slug'));
-  });
+  t.test('returns the correct slug with multiple remotes', function (t) {
+    t.plan(4)
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add origin https://github.com/marco-c/github-slug.git')
+    exec('git remote add upstream https://github.com/finnp/github-slug.git')
 
-  afterEach(function() {
-    process.chdir(oldWD);
-  });
+    ghslug('./', 'origin', function (err, slug) {
+      t.notOk(err)
+      t.equal(slug, 'marco-c/github-slug')
+    })
 
-  it('returns the correct slug', function() {
-    childProcess.execSync('git init');
-    childProcess.execSync('git remote add origin https://github.com/marco-c/github-slug.git');
+    ghslug('./', 'upstream', function (err, slug) {
+      t.notOk(err)
+      t.equal(slug, 'finnp/github-slug')
+    })
+  })
 
-    return ghslug('./').then(function(slug) {
-      assert.equal(slug, 'marco-c/github-slug');
-    });
-  });
+  t.test('fails if the specified remote does not exist', function (t) {
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add origin https://github.com/marco-c/github-slug.git')
+    ghslug('./', 'upstream', function (err, slug) {
+      t.ok(err)
+      t.notOk(slug)
+      t.end()
+    })
+  })
 
-  it('returns the correct slug when there are multiple remotes', function() {
-    childProcess.execSync('git init');
-    childProcess.execSync('git remote add origin https://github.com/marco-c/github-slug.git');
-    childProcess.execSync('git remote add upstream https://github.com/finnp/github-slug.git');
+  t.test('fails if the remote URL is not a GitHub URL', function (t) {
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add origin https://marco.it/marco-c/github-slug.git')
 
-    return ghslug('./', 'origin').then(function(slug) {
-      assert.equal(slug, 'marco-c/github-slug');
+    ghslug('./', function (err, slug) {
+      t.ok(err)
+      t.notOk(slug)
+      t.end()
+    })
+  })
 
-      return ghslug('./', 'upstream').then(function(slug) {
-        assert.equal(slug, 'finnp/github-slug');
-      });
-    });
-  });
-
-  it('fails if the specified remote doesn\'t exist', function() {
-    childProcess.execSync('git init');
-    childProcess.execSync('git remote add origin https://github.com/marco-c/github-slug.git');
-
-    return ghslug('./', 'upstream').then(function() {
-      assert(false);
-    }, function(err) {
-      assert(err);
-    });
-  });
-
-  it('fails if the remote URL isn\'t a GitHub URL', function() {
-    childProcess.execSync('git init');
-    childProcess.execSync('git remote add origin https://marco.it/marco-c/github-slug.git');
-
-    return ghslug('./', 'origin').then(function() {
-      assert(false);
-    }, function(err) {
-      assert(err);
-    });
-  });
-
-  it('fails if outside of a git repository', function() {
-    return ghslug('./').then(function() {
-      assert(false);
-    }, function(err) {
-      assert(err);
-    });
-  });
-});
+  t.test('fails if outside of a git repository', function (t) {
+    process.chdir(temp.mkdirSync())
+    ghslug('./', function (err, slug) {
+      t.ok(err)
+      t.notOk(slug)
+      t.end()
+    })
+  })
+})
