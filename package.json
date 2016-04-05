@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/finnp/github-slug",
   "dependencies": {
-    "gitconfiglocal": "^1.0.0",
+    "gitconfiglocal": "^2.0.1",
     "github-url-from-git": "^1.4.0",
     "temp": "^0.8.3"
   },
