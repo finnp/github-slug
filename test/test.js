@@ -37,6 +37,18 @@ test('github-slug', function (t) {
     })
   })
 
+  t.test('works with global .gitconfig', function (t) {
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add munter gh:greenkeeper/munter')
+    process.env.HOME = __dirname // location of .gitconfig
+    ghslug('./', 'munter', function (err, slug) {
+      t.notOk(err)
+      t.equal(slug, 'greenkeeper/munter')
+      t.end()
+    })
+  })
+
   t.test('fails if the specified remote does not exist', function (t) {
     process.chdir(temp.mkdirSync())
     exec('git init')
@@ -65,6 +77,19 @@ test('github-slug', function (t) {
     ghslug('./', function (err, slug) {
       t.ok(err)
       t.notOk(slug)
+      t.end()
+    })
+  })
+
+  t.test('returns the correct slug from .git/config when git command is not available', function (t) {
+    process.chdir(temp.mkdirSync())
+    exec('git init')
+    exec('git remote add origin https://github.com/marco-c/github-slug.git')
+    process.env.PATH = ''
+
+    ghslug('./', function (err, slug) {
+      t.notOk(err)
+      t.equal(slug, 'marco-c/github-slug')
       t.end()
     })
   })
