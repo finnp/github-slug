@@ -1,10 +1,10 @@
 {
   "name": "github-slug",
-  "version": "1.1.0",
   "description": "Get the github slug (username/repo) of the current folder",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "author": "Finn Pauls",
   "license": "MIT",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "temp": "^0.8.3",
-    "tape": "^4.2.2"
+    "tape": "^4.2.2",
+    "semantic-release": "^4.3.5"
   }
 }
