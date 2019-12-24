@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "temp": "^0.8.3",
-    "tape": "^4.2.2",
+    "tape": "^4.12.1",
     "semantic-release": "^4.3.5"
   }
 }
